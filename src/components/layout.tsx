@@ -52,7 +52,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className='flex justify-center'>{children}</main>
     </>
   );
 }
