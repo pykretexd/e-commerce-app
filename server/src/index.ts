@@ -17,6 +17,7 @@ const main = async () => {
     username: 'postgres',
     password: 'ntig123!',
     logging: true,
+    synchronize: true,
     entities: [Product, User],
   });
   conn.initialize();
