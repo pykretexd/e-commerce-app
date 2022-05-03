@@ -7,17 +7,8 @@ import { DataSource } from 'typeorm';
 import { Product } from './entities/product';
 import { User } from './entities/user';
 import { UserResolver } from './resolvers/user';
-import { readFileSync } from 'fs';
-import { createServer } from 'https';
-import { resolve } from 'path';
 
 const PORT = 4000;
-
-const credentials = {
-  key: readFileSync(resolve(__dirname, './sslcert/private.key'), 'utf8'),
-  cert: readFileSync(resolve(__dirname, './sslcert/public.crt'), 'utf8'),
-  passphrase: 'ntig123!',
-};
 
 const main = async () => {
   const conn = new DataSource({
@@ -42,9 +33,7 @@ const main = async () => {
   const app = express();
   apolloServer.applyMiddleware({ app });
 
-  const httpsServer = createServer(credentials, app);
-
-  httpsServer.listen(PORT, '192.168.1.2', () => {
+  app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
   });
 };
