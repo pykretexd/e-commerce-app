@@ -14,10 +14,15 @@ const Products = () => {
   const { data, fetching, error } = productsResult;
 
   if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error)
+    return (
+      <div className='w-full max-w-[910px] h-screen flex justify-center items-center'>
+        <p>Oh no... {error.message}</p>
+      </div>
+    );
 
   return (
-    <ul className='w-full flex flex-wrap justify-between'>
+    <ul className='w-full max-w-[910px] grid grid-cols-2 sm:grid-cols-3'>
       {data.products.map(
         (product: {
           id: number;
@@ -27,15 +32,15 @@ const Products = () => {
         }) => (
           <li
             key={product.id}
-            className='max-w-[175px] md:max-w-[300px] basis-1/2 h-[50vw] max-h-[400px] px-1 py-4 bg-slate-600'
+            className='px-1 py-4 max-w-[175px] min-h-[260px] max-h-[260px] lg:max-h-[425px] lg:max-w-[300px] h-[60vw] sm:h-[40vw] md:h-[35vw]'
           >
             <div className='flex flex-col items-center'>
               <img
-                src='../images/plant.png'
+                src='https://www.pngitem.com/pimgs/m/516-5162680_snake-plant-png-transparent-png.png'
                 alt='plant'
-                className='max-w-[175px]'
               />
               <p>{product.title}</p>
+              <p>{product.price}</p>
             </div>
           </li>
         )

@@ -1,7 +1,7 @@
 function Header() {
   return (
     <header className='text-center bg-black h-[10vh] text-2xl text-white flex justify-center mb-6'>
-      <div className='w-[85vw] md:w-[75vw] h-[10vh] flex items-center justify-between'>
+      <div className='w-[85vw] md:w-[75vw] max-w-[910px] h-[10vh] flex items-center justify-between'>
         <h1 className='font-bold'>Logo</h1>
         <div className='flex text-xl'>
           <div className='h-[10vh] flex ml-8 items-center gap-2 transition-all'>
@@ -16,7 +16,7 @@ function Header() {
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
-                d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
+                d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
               />
             </svg>
           </div>
