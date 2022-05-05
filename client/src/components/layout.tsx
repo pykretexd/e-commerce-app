@@ -1,19 +1,5 @@
 import Link from 'next/link';
 
-const SearchBar = () => (
-  <div className='bg-white p-2 rounded'>
-    <form action='/' method='get'>
-      <input
-        type='text'
-        id='header-search'
-        placeholder='Search for products...'
-        name='s'
-        className='w-96'
-      />
-    </form>
-  </div>
-);
-
 const Header = () => {
   return (
     <header className='bg-black h-[10vh] text-2xl text-white flex justify-center'>
@@ -23,9 +9,8 @@ const Header = () => {
             LOGO
           </h1>
         </Link>
-        <SearchBar />
         <div className='flex text-xl'>
-          <div className='h-[10vh] flex ml-8 items-center gap-2 transition-all'>
+          <div className='h-[10vh] flex items-center gap-2 transition-all'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'
@@ -73,7 +58,7 @@ const Footer = () => {
           <h1 className='text-2xl font-bold'>LOGO</h1>
           <hr className='my-4' />
         </div>
-        <div className='w-full flex flex-row basis-1/2 text-white'>
+        <div className='w-full flex flex-col gap-6 sm:flex-row basis-1/2 text-white'>
           <div className='basis-1/3'>
             <h3 className='text-xl font-medium mb-6'>Sociala medier</h3>
             <ul className='flex flex-row gap-6'>
@@ -99,6 +84,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+        <p className='text-white self-end'>&copy; 2022 Company name</p>
       </div>
     </footer>
   );

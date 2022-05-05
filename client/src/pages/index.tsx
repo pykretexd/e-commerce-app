@@ -45,7 +45,7 @@ function Products() {
                 src='https://www.pngitem.com/pimgs/m/516-5162680_snake-plant-png-transparent-png.png'
                 alt='plant'
               />
-              <div className='flex flex-col sm:grid sm:grid-cols-2 sm:gap-2 mt-2 '>
+              <div className='flex flex-col mt-2'>
                 <p className='sm:col-span-2'>{product.title}</p>
                 <p className='text-gray-500 sm:col-span-2'>Höjd 120cm / Grön</p>
                 <p>{product.price},00 kr</p>
@@ -53,9 +53,9 @@ function Products() {
                   onClick={() =>
                     setCartItems((cartItems) => [...cartItems, product.id])
                   }
-                  className='relative p-2 w-1/2 sm:w-full bg-green-500 text-white rounded self-center text-xs'
+                  className='relative p-2 m-2 w-[90%] bg-green-500 text-white rounded-3xl self-center'
                 >
-                  Köp
+                  Lägg i varukorg
                 </button>
               </div>
             </div>
