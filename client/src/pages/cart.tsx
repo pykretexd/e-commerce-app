@@ -1,9 +1,10 @@
+import { useAtom } from 'jotai';
 import { NextPage } from 'next';
+import cartAtom from '../components/cartState';
 
-interface cartProps {}
-
-const Cart: React.FC<cartProps> = ({}) => {
-  return <p>Cart</p>;
+const Cart: NextPage = () => {
+  const [cartItems] = useAtom(cartAtom);
+  return <p>{cartItems}</p>;
 };
 
 export default Cart;

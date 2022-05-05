@@ -1,11 +1,17 @@
 import { Product } from '../entities/product';
 import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { getConnection, MoreThan } from 'typeorm';
 
 @Resolver()
 export class ProductResolver {
   @Query(() => [Product])
   products(): Promise<Product[]> {
     return Product.find();
+  }
+
+  @Query(() => [Product])
+  availableProducts(): Promise<Product[]> {
+    return Product.findBy({ count: MoreThan(0) });
   }
 
   @Query(() => [Product], { nullable: true })
@@ -24,21 +30,22 @@ export class ProductResolver {
 
   @Mutation(() => Product, { nullable: true })
   async updateProduct(
-    @Arg('id') id: number,
-    @Arg('title', () => String, { nullable: true }) title: string,
-    @Arg('price', () => Int, { nullable: true }) price: number,
-    @Arg('count', () => Int, { nullable: true }) count: number
+    @Arg('id', () => Int) id: number,
+    @Arg('title') title: string,
+    @Arg('price') price: number,
+    @Arg('count') count: number
   ): Promise<Product | null> {
-    const product = await Product.findOne({ where: { id } });
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Product)
+      .set({ title, price, count })
+      .where('id = :id', {
+        id,
+      })
+      .returning('*')
+      .execute();
 
-    if (!product) {
-      return null;
-    }
-    if (typeof title !== 'undefined') {
-      await Product.update({ id }, { title, price, count });
-    }
-
-    return product;
+    return result.raw[0];
   }
 
   @Mutation(() => Product, { nullable: true })
