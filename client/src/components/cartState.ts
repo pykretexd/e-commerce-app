@@ -1,5 +1,12 @@
 import { atom } from 'jotai';
 
-const cartAtom = atom<number[]>([]);
+export interface product {
+  id: number;
+  title: string;
+  price: number;
+  count: number;
+}
+
+const cartAtom = atom<product[]>([]);
 
 export default cartAtom;

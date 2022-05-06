@@ -1,6 +1,9 @@
+import { useAtom } from 'jotai';
 import Link from 'next/link';
+import cartAtom from './cartState';
 
 const Header = () => {
+  const [cartItems] = useAtom(cartAtom);
   return (
     <header className='bg-black h-[10vh] text-2xl text-white flex justify-center'>
       <div className='w-[85vw] md:w-[75vw] max-w-[910px] h-[10vh] flex items-center justify-between'>
@@ -28,6 +31,11 @@ const Header = () => {
           </div>
           <Link href='/cart'>
             <div className='h-[10vh] flex ml-8 items-center gap-2 transition-all hover:cursor-pointer hover:scale-110'>
+              {cartItems.length > 0 && (
+                <span className='absolute bg-orange-400 translate-x-full -translate-y-2/3 rounded-xl w-4 h-4 text-center text-xs'>
+                  {cartItems.length}
+                </span>
+              )}
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
@@ -97,7 +105,11 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <main className='flex justify-center my-10'>{children}</main>
+      <div className='flex justify-center'>
+        <main className='w-full max-w-[910px] flex justify-center my-10 min-h-[53.2vh]'>
+          {children}
+        </main>
+      </div>
       <Footer />
     </>
   );
