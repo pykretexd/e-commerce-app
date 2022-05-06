@@ -3,7 +3,6 @@ import { useQuery } from 'urql';
 import { useAtom } from 'jotai';
 import cartAtom from '../components/cartState';
 import Head from 'next/head';
-import { useEffect } from 'react';
 
 const Home: NextPage = () => {
   return (
