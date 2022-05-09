@@ -10,7 +10,7 @@ const Cart: NextPage = () => {
       <Head>
         <title>
           Varukorg
-          {cartList.length > 0 && ` (${cartList.length} varor)`}
+          {cartList.length > 0 ? ` (${cartList.length} varor)` : ''}
         </title>
       </Head>
       <h2 className='text-2xl font-semibold'>
