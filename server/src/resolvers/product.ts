@@ -1,6 +1,7 @@
 import { Product } from '../entities/product';
 import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
-import { getConnection, MoreThan } from 'typeorm';
+import { MoreThan } from 'typeorm';
+import { conn } from '../constants';
 
 @Resolver()
 export class ProductResolver {
@@ -35,7 +36,7 @@ export class ProductResolver {
     @Arg('price') price: number,
     @Arg('count') count: number
   ): Promise<Product | null> {
-    const result = await getConnection()
+    const result = await conn
       .createQueryBuilder()
       .update(Product)
       .set({ title, price, count })
