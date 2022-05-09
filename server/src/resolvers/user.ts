@@ -42,7 +42,7 @@ export class UserResolver {
     return await User.findOne({ where: { id: req.session.userId } });
   }
 
-  @Mutation(() => User)
+  @Mutation(() => UserResponse)
   async register(
     @Arg('options') options: UsernamePasswordInput,
     @Ctx() { req }: MyContext
