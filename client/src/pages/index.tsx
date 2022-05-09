@@ -7,6 +7,9 @@ import Head from 'next/head';
 const Home: NextPage = () => {
   return (
     <div className='w-[85vw] md:w-[75vw] flex justify-center'>
+      <Head>
+        <title>Best plants available online</title>
+      </Head>
       <Products />
     </div>
   );
@@ -29,17 +32,14 @@ function Products() {
   if (fetching) return <p>Loading...</p>;
   if (error)
     return (
-      <div className='h-screen flex justify-center items-center'>
-        <p>Whoops! An error occurred...</p>
+      <div className='flex flex-col justify-center items-center'>
+        <p>Whoops! An error occurred... </p>
         <p>{error.message}</p>
       </div>
     );
 
   return (
     <div>
-      <Head>
-        <title>Best plants available online</title>
-      </Head>
       <ul className='grid grid-cols-2 sm:grid-cols-3'>
         {data.availableProducts.map(
           (product: {
