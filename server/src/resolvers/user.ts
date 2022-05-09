@@ -1,22 +1,10 @@
 import { User } from '../entities/user';
-import {
-  Arg,
-  Field,
-  InputType,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from 'type-graphql';
+import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { hash, verify } from 'argon2';
-
-@InputType()
-class UsernamePasswordInput {
-  @Field()
-  username: string;
-
-  @Field()
-  password: string;
-}
+import { MyContext } from '../types';
+import { conn } from '../constants';
+import { UsernamePasswordInput } from './UsernamePasswordInput';
+import { validateRegister } from '../utils/validateRegister';
 
 @ObjectType()
 class FieldError {
@@ -37,57 +25,70 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
-  @Mutation(() => UserResponse)
+  @Mutation(() => User)
   async register(
-    @Arg('options') options: UsernamePasswordInput
+    @Arg('options') options: UsernamePasswordInput,
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    if (options.username.length >= 2) {
-      return {
-        errors: [
-          {
-            field: 'username',
-            message: 'username must be greater than two characters',
-          },
-        ],
-      };
-    }
-
-    if (options.password.length >= 2) {
-      return {
-        errors: [
-          {
-            field: 'password',
-            message: 'password must be greater than two characters',
-          },
-        ],
-      };
+    const errors = validateRegister(options);
+    if (errors) {
+      return { errors };
     }
 
     const hashedPassword = await hash(options.password);
-    const user = User.create({
-      username: options.username,
-      password: hashedPassword,
-    });
+    let user;
+    try {
+      const result = await conn
+        .createQueryBuilder()
+        .insert()
+        .into(User)
+        .values({
+          username: options.username,
+          email: options.email,
+          password: hashedPassword,
+        })
+        .returning('*')
+        .execute();
 
+      user = result.raw[0];
+    } catch (err) {
+      if (err.code === '23505') {
+        return {
+          errors: [
+            {
+              field: 'username',
+              message: 'username already taken',
+            },
+          ],
+        };
+      }
+    }
+    req.session.userId = user.id;
     return { user };
   }
 
   @Mutation(() => UserResponse)
   async login(
-    @Arg('options') options: UsernamePasswordInput
+    @Arg('usernameOrEmail') usernameOrEmail: string,
+    @Arg('password') password: string,
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await User.findOne({ where: { username: options.username } });
+    const user = await User.findOne(
+      usernameOrEmail.includes('@')
+        ? { where: { email: usernameOrEmail } }
+        : { where: { username: usernameOrEmail } }
+    );
     if (!user) {
       return {
         errors: [
           {
-            field: 'username',
-            message: 'invalid username',
+            field: 'usernameOrEmail',
+            message: 'invalid username or email',
           },
         ],
       };
     }
-    const valid = await verify(user.password, options.password);
+    const valid = await verify(user.password, password);
     if (!valid) {
       return {
         errors: [
@@ -98,8 +99,9 @@ export class UserResolver {
         ],
       };
     }
-    return {
-      user,
-    };
+
+    req.session.userId = user.id;
+
+    return { user };
   }
 }
