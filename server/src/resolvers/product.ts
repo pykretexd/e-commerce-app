@@ -3,7 +3,7 @@ import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { MoreThan } from 'typeorm';
 import { conn } from '../constants';
 
-@Resolver()
+@Resolver(Product)
 export class ProductResolver {
   @Query(() => [Product])
   products(): Promise<Product[]> {
@@ -15,9 +15,9 @@ export class ProductResolver {
     return Product.findBy({ count: MoreThan(0) });
   }
 
-  @Query(() => [Product], { nullable: true })
-  product(@Arg('id') id: number): Promise<Product | null> {
-    return Product.findOne({ where: { id } });
+  @Query(() => Product, { nullable: true })
+  product(@Arg('id', () => Int) id: number): Promise<Product | null> {
+    return Product.findOne({ where: { id: id } });
   }
 
   @Mutation(() => Product)
@@ -49,8 +49,8 @@ export class ProductResolver {
     return result.raw[0];
   }
 
-  @Mutation(() => Product, { nullable: true })
-  async deleteProduct(@Arg('id') id: number): Promise<boolean> {
+  @Mutation(() => Boolean)
+  async deleteProduct(@Arg('id', () => Int) id: number): Promise<boolean> {
     await Product.delete(id);
     return true;
   }
