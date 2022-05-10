@@ -1,0 +1,20 @@
+mutation UpdateProduct(
+  $count: Float!
+  $price: Float!
+  $title: String!
+  $updateProductId: Int!
+) {
+  updateProduct(
+    count: $count
+    price: $price
+    title: $title
+    id: $updateProductId
+  ) {
+    id
+    title
+    price
+    count
+    createdAt
+    updatedAt
+  }
+}

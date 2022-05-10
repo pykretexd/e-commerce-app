@@ -1,0 +1,10 @@
+query AvailableProducts($id: Int!) {
+  availableProducts {
+    id
+    title
+    price
+    count
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,10 @@
+query Products($id: Int!) {
+  products {
+    id
+    title
+    price
+    count
+    createdAt
+    updatedAt
+  }
+}
