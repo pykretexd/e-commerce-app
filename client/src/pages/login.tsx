@@ -78,9 +78,9 @@ const Register: React.FC<{}> = ({}) => {
               Submit
             </button>
             <p>
-              Har du redan konto?{' '}
-              <a href='/login' className='underline'>
-                Logga in här.
+              Har du inget konto?{' '}
+              <a href='/register' className='underline'>
+                Registrera dig här.
               </a>
             </p>
           </form>
