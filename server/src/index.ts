@@ -8,6 +8,7 @@ import { conn, __prod__ } from './constants';
 import Redis from 'ioredis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
+import expressSession from 'express-session';
 
 const PORT = 4000;
 
@@ -17,8 +18,9 @@ const main = async () => {
   const app = express();
   const RedisStore = connectRedis(session);
   const redisClient = new Redis('127.0.0.1:6379');
+
   app.use(
-    session({
+    expressSession({
       name: 'qid',
       store: new RedisStore({ client: redisClient as any, disableTouch: true }),
       saveUninitialized: false,
