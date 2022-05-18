@@ -33,10 +33,8 @@ const AccountPanel = () => {
     );
   } else {
     return (
-      <Link href='/account'>
-        <div className='flex flex-row items-center gap-8 text-center'>
-          <p>{data.me.username}</p>
-          <button>Logga ut</button>
+      <div className='flex flex-row items-center gap-8 text-center'>
+        <Link href={'/account'}>
           <div className='transition hover:cursor-pointer'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -53,8 +51,8 @@ const AccountPanel = () => {
               />
             </svg>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   }
 };
