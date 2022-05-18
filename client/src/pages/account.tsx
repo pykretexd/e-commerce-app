@@ -1,5 +1,16 @@
+import { useLogoutMutation } from '../generated/graphql';
+
 const Account = () => {
-  return <p>Account</p>;
+  const [, logout] = useLogoutMutation();
+  return (
+    <button
+      onClick={() => {
+        logout();
+      }}
+    >
+      Logga ut
+    </button>
+  );
 };
 
 export default Account;
