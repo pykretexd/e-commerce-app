@@ -1,4 +1,4 @@
-query AvailableProducts($id: Int!) {
+query AvailableProducts {
   availableProducts {
     ...regularProduct
   }

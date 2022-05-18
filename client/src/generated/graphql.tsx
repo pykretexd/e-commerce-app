@@ -156,9 +156,7 @@ export type UpdateProductMutationVariables = Exact<{
 
 export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct?: { __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string } | null };
 
-export type AvailableProductsQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
+export type AvailableProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AvailableProductsQuery = { __typename?: 'Query', availableProducts: Array<{ __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string }> };
@@ -175,9 +173,7 @@ export type ProductQueryVariables = Exact<{
 
 export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string } | null };
 
-export type ProductsQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
+export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string }> };
@@ -276,14 +272,14 @@ export function useUpdateProductMutation() {
   return Urql.useMutation<UpdateProductMutation, UpdateProductMutationVariables>(UpdateProductDocument);
 };
 export const AvailableProductsDocument = gql`
-    query AvailableProducts($id: Int!) {
+    query AvailableProducts {
   availableProducts {
     ...regularProduct
   }
 }
     ${RegularProductFragmentDoc}`;
 
-export function useAvailableProductsQuery(options: Omit<Urql.UseQueryArgs<AvailableProductsQueryVariables>, 'query'>) {
+export function useAvailableProductsQuery(options?: Omit<Urql.UseQueryArgs<AvailableProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<AvailableProductsQuery>({ query: AvailableProductsDocument, ...options });
 };
 export const MeDocument = gql`
@@ -309,13 +305,13 @@ export function useProductQuery(options: Omit<Urql.UseQueryArgs<ProductQueryVari
   return Urql.useQuery<ProductQuery>({ query: ProductDocument, ...options });
 };
 export const ProductsDocument = gql`
-    query Products($id: Int!) {
+    query Products {
   products {
     ...regularProduct
   }
 }
     ${RegularProductFragmentDoc}`;
 
-export function useProductsQuery(options: Omit<Urql.UseQueryArgs<ProductsQueryVariables>, 'query'>) {
+export function useProductsQuery(options?: Omit<Urql.UseQueryArgs<ProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<ProductsQuery>({ query: ProductsDocument, ...options });
 };
