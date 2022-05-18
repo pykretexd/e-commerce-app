@@ -1,8 +1,10 @@
 import type { NextPage } from 'next';
+import { withUrqlClient } from 'next-urql';
 import { useQuery } from 'urql';
 import { useAtom } from 'jotai';
 import cartAtom from '../components/cartState';
 import Head from 'next/head';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Home: NextPage = () => {
   return (
@@ -86,4 +88,4 @@ function Products() {
   );
 }
 
-export default Home;
+export default withUrqlClient(createUrqlClient)(Home);
