@@ -10,7 +10,7 @@ import {
 } from 'type-graphql';
 import { hash, verify } from 'argon2';
 import { MyContext } from '../types';
-import { conn } from '../constants';
+import { conn, COOKIE_NAME } from '../constants';
 import { UsernamePasswordInput } from './UsernamePasswordInput';
 import { validateRegister } from '../utils/validateRegister';
 
@@ -122,5 +122,21 @@ export class UserResolver {
     req.session.save();
     console.log(User.findOne({ where: { id: req.session.userId } }));
     return { user };
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext) {
+    return new Promise((resolve) =>
+      req.session.destroy((err) => {
+        res.clearCookie(COOKIE_NAME);
+        if (err) {
+          console.log(err);
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+      })
+    );
   }
 }
