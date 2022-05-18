@@ -5,11 +5,11 @@ import cartAtom from './cartState';
 
 const AccountPanel = () => {
   const [{ data, fetching }] = useMeQuery();
-  let body = null;
 
   if (fetching) {
+    return <p>Loading...</p>;
   } else if (!data?.me) {
-    body = (
+    return (
       <>
         <Link href='/login'>
           <div className='transition hover:cursor-pointer'>
@@ -32,7 +32,7 @@ const AccountPanel = () => {
       </>
     );
   } else {
-    body = (
+    return (
       <Link href='/account'>
         <div className='flex flex-row items-center gap-8 text-center'>
           <p>{data.me.username}</p>
@@ -57,8 +57,6 @@ const AccountPanel = () => {
       </Link>
     );
   }
-
-  return body;
 };
 
 export const Header = () => {

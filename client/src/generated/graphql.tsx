@@ -105,6 +105,8 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
+
 export type CreateProductMutationVariables = Exact<{
   count: Scalars['Float'];
   price: Scalars['Float'];
@@ -156,7 +158,7 @@ export type AvailableProductsQuery = { __typename?: 'Query', availableProducts: 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, updatedAt: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string } | null };
 
 export type ProductQueryVariables = Exact<{
   productId: Scalars['Int'];
@@ -172,7 +174,12 @@ export type ProductsQueryVariables = Exact<{
 
 export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string }> };
 
-
+export const RegularUserFragmentDoc = gql`
+    fragment regularUser on User {
+  id
+  username
+}
+    `;
 export const CreateProductDocument = gql`
     mutation CreateProduct($count: Float!, $price: Float!, $title: String!) {
   createProduct(count: $count, price: $price, title: $title) {
@@ -275,14 +282,10 @@ export function useAvailableProductsQuery(options: Omit<Urql.UseQueryArgs<Availa
 export const MeDocument = gql`
     query Me {
   me {
-    id
-    username
-    email
-    createdAt
-    updatedAt
+    ...regularUser
   }
 }
-    `;
+    ${RegularUserFragmentDoc}`;
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });

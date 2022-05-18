@@ -8,30 +8,44 @@ import { conn, __prod__ } from './constants';
 import Redis from 'ioredis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
-import expressSession from 'express-session';
+import cors from 'cors';
 
 const PORT = 4000;
 
 const main = async () => {
   conn.initialize();
 
-  const app = express();
   const RedisStore = connectRedis(session);
-  const redisClient = new Redis('127.0.0.1:6379');
+  const redis = new Redis('127.0.0.1:6379');
 
+  const app = express();
+  app.set('trust proxy', !__prod__);
   app.use(
-    expressSession({
+    cors({
+      origin: [
+        'http://localhost:3000',
+        'http://localhost:4000/graphql',
+        'https://studio.apollographql.com',
+      ],
+      credentials: true,
+    })
+  );
+  app.use(
+    session({
       name: 'qid',
-      store: new RedisStore({ client: redisClient as any, disableTouch: true }),
-      saveUninitialized: false,
-      resave: false,
-      secret: 'ntig123!',
+      store: new RedisStore({
+        client: redis,
+        disableTouch: true,
+      }),
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // max age: 10 years
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
         sameSite: 'lax',
         secure: __prod__,
       },
+      saveUninitialized: false,
+      secret: 'ntig123!',
+      resave: false,
     })
   );
 
@@ -40,13 +54,21 @@ const main = async () => {
       resolvers: [ProductResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }) => ({
+      req,
+      res,
+      redis,
+    }),
   });
+
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+    console.log('server started on localhost:', PORT);
   });
 };
 
