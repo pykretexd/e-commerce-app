@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import router from 'next/router';
-import { useLoginMutation, useMeQuery } from '../generated/graphql';
+import { useLoginMutation } from '../generated/graphql';
 import { errorMap } from '../utils/errorMap';
 
 const Register: React.FC<{}> = ({}) => {
