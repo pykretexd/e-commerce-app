@@ -1,10 +1,5 @@
 query Product($productId: Int!) {
   product(id: $productId) {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }

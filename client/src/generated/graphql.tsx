@@ -105,7 +105,9 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
+export type RegularProductFragment = { __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string };
+
+export type RegularUserFragment = { __typename?: 'User', id: number, username: string, email: string, createdAt: string, updatedAt: string };
 
 export type CreateProductMutationVariables = Exact<{
   count: Scalars['Float'];
@@ -158,7 +160,7 @@ export type AvailableProductsQuery = { __typename?: 'Query', availableProducts: 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, updatedAt: string } | null };
 
 export type ProductQueryVariables = Exact<{
   productId: Scalars['Int'];
@@ -174,24 +176,32 @@ export type ProductsQueryVariables = Exact<{
 
 export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: number, title: string, price: number, count: number, createdAt: string, updatedAt: string }> };
 
+export const RegularProductFragmentDoc = gql`
+    fragment regularProduct on Product {
+  id
+  title
+  price
+  count
+  createdAt
+  updatedAt
+}
+    `;
 export const RegularUserFragmentDoc = gql`
     fragment regularUser on User {
   id
   username
+  email
+  createdAt
+  updatedAt
 }
     `;
 export const CreateProductDocument = gql`
     mutation CreateProduct($count: Float!, $price: Float!, $title: String!) {
   createProduct(count: $count, price: $price, title: $title) {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
-    `;
+    ${RegularProductFragmentDoc}`;
 
 export function useCreateProductMutation() {
   return Urql.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument);
@@ -213,15 +223,11 @@ export const LoginDocument = gql`
       message
     }
     user {
-      id
-      username
-      email
-      createdAt
-      updatedAt
+      ...regularUser
     }
   }
 }
-    `;
+    ${RegularUserFragmentDoc}`;
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
@@ -234,15 +240,11 @@ export const RegisterDocument = gql`
       message
     }
     user {
-      id
-      username
-      email
-      createdAt
-      updatedAt
+      ...regularUser
     }
   }
 }
-    `;
+    ${RegularUserFragmentDoc}`;
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
@@ -250,15 +252,10 @@ export function useRegisterMutation() {
 export const UpdateProductDocument = gql`
     mutation UpdateProduct($count: Float!, $price: Float!, $title: String!, $updateProductId: Int!) {
   updateProduct(count: $count, price: $price, title: $title, id: $updateProductId) {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
-    `;
+    ${RegularProductFragmentDoc}`;
 
 export function useUpdateProductMutation() {
   return Urql.useMutation<UpdateProductMutation, UpdateProductMutationVariables>(UpdateProductDocument);
@@ -266,15 +263,10 @@ export function useUpdateProductMutation() {
 export const AvailableProductsDocument = gql`
     query AvailableProducts($id: Int!) {
   availableProducts {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
-    `;
+    ${RegularProductFragmentDoc}`;
 
 export function useAvailableProductsQuery(options: Omit<Urql.UseQueryArgs<AvailableProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<AvailableProductsQuery>({ query: AvailableProductsDocument, ...options });
@@ -293,15 +285,10 @@ export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, '
 export const ProductDocument = gql`
     query Product($productId: Int!) {
   product(id: $productId) {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
-    `;
+    ${RegularProductFragmentDoc}`;
 
 export function useProductQuery(options: Omit<Urql.UseQueryArgs<ProductQueryVariables>, 'query'>) {
   return Urql.useQuery<ProductQuery>({ query: ProductDocument, ...options });
@@ -309,15 +296,10 @@ export function useProductQuery(options: Omit<Urql.UseQueryArgs<ProductQueryVari
 export const ProductsDocument = gql`
     query Products($id: Int!) {
   products {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
-    `;
+    ${RegularProductFragmentDoc}`;
 
 export function useProductsQuery(options: Omit<Urql.UseQueryArgs<ProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<ProductsQuery>({ query: ProductsDocument, ...options });

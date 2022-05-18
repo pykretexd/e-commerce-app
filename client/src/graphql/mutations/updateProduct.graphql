@@ -10,11 +10,6 @@ mutation UpdateProduct(
     title: $title
     id: $updateProductId
   ) {
-    id
-    title
-    price
-    count
-    createdAt
-    updatedAt
+    ...regularProduct
   }
 }
