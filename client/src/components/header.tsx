@@ -21,7 +21,7 @@ const Header = () => {
             <Link href='/cart'>
               <div>
                 {cartItems.length > 0 && (
-                  <span className='absolute bg-orange-400 translate-x-1/2 -translate-y-2/3 rounded-xl w-4 h-4 text-center text-xs'>
+                  <span className='absolute bg-orange-400 translate-x-full -translate-y-1/2 rounded-xl w-4 h-4 text-center text-xs'>
                     {cartItems.length}
                   </span>
                 )}
