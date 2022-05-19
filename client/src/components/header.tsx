@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import AccountPanel from './AccountPanel';
+import AccountPanel from './accountPanel';
 import cartAtom from './cartState';
 
 const Header = () => {
@@ -18,7 +18,7 @@ const Header = () => {
             <AccountPanel pageProps={undefined} />
           </li>
           <li className='transition hover:cursor-pointer hover:scale-110 flex items-center'>
-            <button className='h-full'>
+            <Link href='/cart'>
               <div>
                 {cartItems.length > 0 && (
                   <span className='absolute bg-orange-400 translate-x-1/2 -translate-y-2/3 rounded-xl w-4 h-4 text-center text-xs'>
@@ -40,7 +40,7 @@ const Header = () => {
                   />
                 </svg>
               </div>
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
