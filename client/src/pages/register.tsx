@@ -1,7 +1,5 @@
 import { Formik } from 'formik';
-import { responsePathAsArray } from 'graphql';
 import { useRouter } from 'next/router';
-import { useMutation } from 'urql';
 import { useRegisterMutation } from '../generated/graphql';
 import { errorMap } from '../utils/errorMap';
 import { withUrqlClient } from 'next-urql';
