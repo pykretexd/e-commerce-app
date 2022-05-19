@@ -4,13 +4,11 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { ProductResolver } from './resolvers/product';
 import { UserResolver } from './resolvers/user';
-import { conn, COOKIE_NAME, __prod__ } from './constants';
+import { conn, COOKIE_NAME, DOMAIN, PORT, __prod__ } from './constants';
 import Redis from 'ioredis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
-
-const PORT = 4000;
 
 const main = async () => {
   conn.initialize();
@@ -23,7 +21,7 @@ const main = async () => {
   app.use(
     cors({
       origin: [
-        'http://localhost:3000',
+        `${DOMAIN}:${PORT}`,
         'http://localhost:4000/graphql',
         'https://studio.apollographql.com',
       ],
@@ -68,7 +66,7 @@ const main = async () => {
   });
 
   app.listen(PORT, () => {
-    console.log('server started on localhost:', PORT);
+    console.log(`server started on ${DOMAIN}`);
   });
 };
 
