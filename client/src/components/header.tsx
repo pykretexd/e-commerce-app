@@ -1,63 +1,9 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import { useMeQuery } from '../generated/graphql';
+import AccountPanel from './AccountPanel';
 import cartAtom from './cartState';
 
-const AccountPanel = () => {
-  const [{ data, fetching }] = useMeQuery();
-
-  if (fetching) {
-    return <p>Loading...</p>;
-  } else if (!data?.me) {
-    return (
-      <>
-        <Link href='/login'>
-          <div className='transition hover:cursor-pointer'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6 hover:scale-110'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              strokeWidth='2'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-              />
-            </svg>
-          </div>
-        </Link>
-      </>
-    );
-  } else {
-    return (
-      <div className='flex flex-row items-center gap-8 text-center'>
-        <Link href={'/account'}>
-          <div className='transition hover:cursor-pointer'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6 hover:scale-110'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              strokeWidth='2'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-              />
-            </svg>
-          </div>
-        </Link>
-      </div>
-    );
-  }
-};
-
-export const Header = () => {
+const Header = () => {
   const [cartItems] = useAtom(cartAtom);
   return (
     <header className='bg-black h-20 text-2xl text-white flex justify-center'>
@@ -69,13 +15,13 @@ export const Header = () => {
         </Link>
         <ul className='flex text-xl gap-8 items-center'>
           <li>
-            <AccountPanel />
+            <AccountPanel pageProps={undefined} />
           </li>
-          <li className='transition hover:cursor-pointer hover:scale-110'>
-            <Link href='/cart'>
+          <li className='transition hover:cursor-pointer hover:scale-110 flex items-center'>
+            <button className='h-full'>
               <div>
                 {cartItems.length > 0 && (
-                  <span className='absolute bg-orange-400 translate-x-full -translate-y-2/3 rounded-xl w-4 h-4 text-center text-xs'>
+                  <span className='absolute bg-orange-400 translate-x-1/2 -translate-y-2/3 rounded-xl w-4 h-4 text-center text-xs'>
                     {cartItems.length}
                   </span>
                 )}
@@ -94,10 +40,12 @@ export const Header = () => {
                   />
                 </svg>
               </div>
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
     </header>
   );
 };
+
+export default Header;
