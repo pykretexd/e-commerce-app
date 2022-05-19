@@ -2,8 +2,10 @@ import { Formik } from 'formik';
 import router from 'next/router';
 import { useLoginMutation } from '../generated/graphql';
 import { errorMap } from '../utils/errorMap';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
-const Register: React.FC<{}> = ({}) => {
+const Login: React.FC<{}> = ({}) => {
   const [, login] = useLoginMutation();
 
   return (
@@ -90,4 +92,4 @@ const Register: React.FC<{}> = ({}) => {
   );
 };
 
-export default Register;
+export default withUrqlClient(createUrqlClient)(Login);

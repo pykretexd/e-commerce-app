@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import { withUrqlClient } from 'next-urql';
-import { useQuery } from 'urql';
 import { useAtom } from 'jotai';
 import cartAtom from '../components/cartState';
 import Head from 'next/head';
@@ -49,7 +48,7 @@ function Products() {
               >
                 <div className='flex flex-col'>
                   <img
-                    // src='https://www.kindpng.com/picc/m/381-3816942_indoor-plants-png-transparent-png.png'
+                    src='https://www.kindpng.com/picc/m/381-3816942_indoor-plants-png-transparent-png.png'
                     alt='plant'
                   />
                   <div className='flex flex-col mt-2'>

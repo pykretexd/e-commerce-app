@@ -1,4 +1,6 @@
 import { useLogoutMutation } from '../generated/graphql';
+import { createUrqlClient } from '../utils/createUrqlClient';
+import { withUrqlClient } from 'next-urql';
 
 const Account = () => {
   const [, logout] = useLogoutMutation();
@@ -13,4 +15,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default withUrqlClient(createUrqlClient)(Account);
