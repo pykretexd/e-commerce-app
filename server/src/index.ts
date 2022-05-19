@@ -1,10 +1,11 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { ProductResolver } from './resolvers/product';
 import { UserResolver } from './resolvers/user';
-import { conn, COOKIE_NAME, DOMAIN, PORT, __prod__ } from './constants';
+import { conn, COOKIE_NAME } from './constants';
 import Redis from 'ioredis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
@@ -17,11 +18,11 @@ const main = async () => {
   const redis = new Redis('127.0.0.1:6379');
 
   const app = express();
-  app.set('trust proxy', !__prod__);
+  app.set('trust proxy', false);
   app.use(
     cors({
       origin: [
-        `${DOMAIN}:${PORT}`,
+        process.env.CORS_ORIGIN,
         'http://localhost:4000/graphql',
         'https://studio.apollographql.com',
       ],
@@ -39,10 +40,10 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
         sameSite: 'lax',
-        secure: __prod__,
+        secure: false,
       },
       saveUninitialized: false,
-      secret: 'ntig123!',
+      secret: process.env.SESSION_SECRET,
       resave: false,
     })
   );
@@ -65,8 +66,8 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(PORT, () => {
-    console.log(`server started on ${DOMAIN}`);
+  app.listen(process.env.PORT, () => {
+    console.log('Server started on port: ', process.env.PORT);
   });
 };
 
