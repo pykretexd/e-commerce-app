@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
 import { useAtom } from 'jotai';
 import cartAtom from '../components/cartState';
 import Head from 'next/head';
+import Link from 'next/link';
 
-const Cart: NextPage = () => {
+export default function Cart() {
   const [cartList, setCartList] = useAtom(cartAtom);
   return (
     <div className='w-full p-8 bg-gray-100'>
@@ -21,7 +21,7 @@ const Cart: NextPage = () => {
       {cartList.length > 0 ? <CartList /> : <p>Din vagn är tom.</p>}
     </div>
   );
-};
+}
 
 function CartList() {
   const [cartList, setCartList] = useAtom(cartAtom);
@@ -82,8 +82,9 @@ function CartList() {
           </li>
         )
       )}
+      <li>
+        <Link href='/checkout'>Gå till kassan</Link>
+      </li>
     </ul>
   );
 }
-
-export default Cart;

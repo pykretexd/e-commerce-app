@@ -12,7 +12,6 @@
   "dependencies": {
     "@urql/exchange-graphcache": "^4.4.0",
     "formik": "^2.2.9",
-    "graphql": "^16.4.0",
     "isomorphic-unfetch": "^3.1.0",
     "jotai": "^1.6.5",
     "next": "^12.1.5",
@@ -21,6 +20,7 @@
     "react-dnd": "^16.0.1",
     "react-dom": "18.0.0",
     "react-is": "^18.1.0",
+    "stripe": "^9.2.0",
     "urql": "^2.2.0"
   },
   "devDependencies": {
@@ -34,6 +34,7 @@
     "autoprefixer": "^10.4.6",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.5",
+    "graphql": "^15.0.0",
     "postcss": "^8.4.13",
     "tailwindcss": "^3.0.24",
     "typescript": "4.6.3"

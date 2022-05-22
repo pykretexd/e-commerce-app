@@ -10,7 +10,7 @@ export default function Layout({ children }: Props) {
     <>
       <Header />
       <div className='flex justify-center'>
-        <main className='w-full max-w-[910px] flex justify-center my-10 min-h-[55.2vh]'>
+        <main className='w-full max-w-[910px] flex justify-center my-10 min-h-[55.2vh] lg:min-h-[67.1vh]'>
           {children}
         </main>
       </div>
