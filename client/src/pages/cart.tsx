@@ -1,12 +1,28 @@
 import { useAtom } from 'jotai';
 import cartAtom from '../components/cartState';
 import Head from 'next/head';
-import Link from 'next/link';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK);
 
 export default function Cart() {
   const [cartList, setCartList] = useAtom(cartAtom);
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const { sessionId } = await fetch('/api/checkout/session', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ quantity: 1 }),
+    }).then((res) => res.json());
+    const stripe = await stripePromise;
+    const { error } = await stripe?.redirectToCheckout({ sessionId });
+  };
+
   return (
-    <div className='w-full p-8 bg-gray-100'>
+    <div className='w-full p-8 bg-gray-100 flex flex-col'>
       <Head>
         <title>
           Varukorg
@@ -19,6 +35,9 @@ export default function Cart() {
         {cartList.length == 1 && ` (${cartList.length} vara)`}
       </h2>
       {cartList.length > 0 ? <CartList /> : <p>Din vagn är tom.</p>}
+      <form onSubmit={handleSubmit} method='POST'>
+        <button type='submit'>Checkout</button>
+      </form>
     </div>
   );
 }
@@ -26,10 +45,10 @@ export default function Cart() {
 function CartList() {
   const [cartList, setCartList] = useAtom(cartAtom);
   const uniqueCart = cartList.filter(
-    (pos, i) =>
+    (pos: { id: any; title: any; price: any }, i: any) =>
       i ===
       cartList.findIndex(
-        (element) =>
+        (element: { id: any; title: any; price: any }) =>
           element.id === pos.id &&
           element.title === pos.title &&
           element.price === pos.price
@@ -37,7 +56,7 @@ function CartList() {
   );
 
   function removeKey(id: number) {
-    const newList = cartList.filter((item) => item.id !== id);
+    const newList = cartList.filter((item: { id: number }) => item.id !== id);
     setCartList(newList);
   }
 
@@ -82,9 +101,6 @@ function CartList() {
           </li>
         )
       )}
-      <li>
-        <Link href='/checkout'>Gå till kassan</Link>
-      </li>
     </ul>
   );
 }

@@ -56,7 +56,7 @@ function Products() {
                     <p>{product.price + ',00 kr'}</p>
                     <button
                       onClick={() =>
-                        setCartList((cartList) => [
+                        setCartList((cartList: any) => [
                           ...cartList,
                           {
                             id: product.id,
