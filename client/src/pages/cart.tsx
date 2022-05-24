@@ -22,21 +22,46 @@ export default function Cart() {
   };
 
   return (
-    <div className='w-full p-8 bg-gray-100 flex flex-col'>
+    <div className='flex gap-4 w-full p-4 bg-gray-100'>
       <Head>
         <title>
           Varukorg
           {cartList.length > 0 ? ` (${cartList.length} varor)` : ''}
         </title>
       </Head>
-      <h2 className='text-2xl font-semibold'>
-        Varukorg
-        {cartList.length > 1 && ` (${cartList.length} varor)`}
-        {cartList.length == 1 && ` (${cartList.length} vara)`}
-      </h2>
-      {cartList.length > 0 ? <CartList /> : <p>Din vagn är tom.</p>}
-      <form onSubmit={handleSubmit} method='POST'>
-        <button type='submit'>Checkout</button>
+      <div className='basis-1/2 bg-white p-4'>
+        <h1 className='text-2xl font-semibold'>
+          Varukorg
+          {cartList.length > 1 && ` (${cartList.length} varor)`}
+          {cartList.length == 1 && ` (${cartList.length} vara)`}
+        </h1>
+        {cartList.length > 0 ? <CartList /> : <p>Din vagn är tom.</p>}
+      </div>
+      <form
+        className='h-1/2 basis-1/2 p-4 flex flex-col gap-4 bg-white relative'
+        onSubmit={handleSubmit}
+        method='POST'
+      >
+        <h2 className='text-2xl font-semibold'>Totalsumma</h2>
+        <div className='flex justify-between'>
+          <p>Deltotal</p>
+          <p>0,00 kr</p>
+        </div>
+        <div className='flex justify-between'>
+          <p>Frakt</p>
+          <p>0,00 kr</p>
+        </div>
+        <div className='w-full h-[1px] bg-black' />
+        <div className='flex justify-between font-semibold'>
+          <p>Totalsumma</p>
+          <p>0,00 kr</p>
+        </div>
+        <button
+          className='absolute bottom-0 self-center bg-black text-white w-4/5 py-2 mb-4 rounded'
+          type='submit'
+        >
+          Checkout
+        </button>
       </form>
     </div>
   );
