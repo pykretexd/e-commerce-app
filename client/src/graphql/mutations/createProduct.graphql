@@ -1,5 +1,0 @@
-mutation CreateProduct($count: Float!, $price: Float!, $title: String!) {
-  createProduct(count: $count, price: $price, title: $title) {
-    ...regularProduct
-  }
-}

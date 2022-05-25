@@ -1,5 +1,0 @@
-query Product($productId: Int!) {
-  product(id: $productId) {
-    ...regularProduct
-  }
-}

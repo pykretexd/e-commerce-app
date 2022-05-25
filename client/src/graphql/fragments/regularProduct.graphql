@@ -1,8 +1,0 @@
-fragment regularProduct on Product {
-  id
-  title
-  price
-  count
-  createdAt
-  updatedAt
-}
