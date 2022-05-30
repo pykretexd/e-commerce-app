@@ -39,7 +39,7 @@ const Header: FunctionComponent = () => {
     <header className='relative flex justify-center h-20 bg-black text-white text-2xl '>
       <div className='w-[85vw] md:w-[75vw] max-w-[910px] flex items-center justify-between'>
         {/* Logo */}
-        <div className='flex-1 flex'>
+        <div className='flex-1 flex hover:cursor-pointer'>
           <Link href='/'>
             <p className='text-2xl font-bold'>LOGO</p>
           </Link>

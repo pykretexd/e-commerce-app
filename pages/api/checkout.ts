@@ -35,6 +35,9 @@ export default async function handler(
       cancel_url: `${req.headers.origin}`,
       line_items: body.lineItems,
       mode: 'payment',
+      shipping_address_collection: {
+        allowed_countries: ['SE'],
+      },
     });
 
     res.status(200).json({ session });
