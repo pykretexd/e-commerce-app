@@ -26,7 +26,6 @@ const Card: FunctionComponent<CardProps> = ({ price }) => {
         <img
           className='w-3/4 h-3/4 object-center object-cover self-center'
           src={getProductImage(price.product)}
-          alt={getProductDescription(price.product)}
         />
         <div className='flex flex-col'>
           <p className='sm:col-span-2'>{getProductName(price.product)}</p>

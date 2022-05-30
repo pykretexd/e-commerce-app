@@ -110,7 +110,7 @@ const Header: FunctionComponent = () => {
 
                       <button
                         onClick={checkout}
-                        className='w-full bg-green-500 hover:bg-green-700 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50'
+                        className='w-full bg-green-500 hover:bg-green-700 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white'
                       >
                         Gå till kassan
                       </button>
