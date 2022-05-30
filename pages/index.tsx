@@ -9,7 +9,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
 
   const response = await stripe.prices.list({
-    currency: 'SEK',
     expand: ['data.product'],
   });
 
