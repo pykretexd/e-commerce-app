@@ -2,7 +2,6 @@ import { FunctionComponent, useContext } from 'react';
 import Stripe from 'stripe';
 import {
   getPriceTotal,
-  getProductDescription,
   getProductImage,
   getProductName,
 } from '../utils/computed';
