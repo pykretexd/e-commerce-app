@@ -9,6 +9,7 @@ type Res = {
 type LineItem = {
   price: string;
   quantity: number;
+  adjustable_quanitity: { enabled: boolean; minimum: number; maximum: number };
 };
 
 type Req = {

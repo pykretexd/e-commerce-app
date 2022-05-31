@@ -1,4 +1,4 @@
-import { useContext, Fragment, FunctionComponent } from 'react';
+import { useContext, Fragment, FunctionComponent, useState } from 'react';
 import { TrashIcon, ShoppingBagIcon } from '@heroicons/react/outline';
 import { Popover, Transition } from '@headlessui/react';
 import CartContext from '../context/CartContext';
@@ -13,6 +13,8 @@ import Link from 'next/link';
 const Header: FunctionComponent = () => {
   const { items, remove } = useContext(CartContext);
 
+  const maxQuantity = 10;
+
   const removeFromCart = (id: string) => {
     if (remove) {
       remove(id);
@@ -24,6 +26,11 @@ const Header: FunctionComponent = () => {
       return {
         price: price.id,
         quantity: 1,
+        adjustable_quantity: {
+          enabled: true,
+          minimum: 1,
+          maximum: maxQuantity,
+        },
       };
     });
     const res = await fetch('/api/checkout', {
@@ -91,6 +98,11 @@ const Header: FunctionComponent = () => {
                                   <p className='ml-4'>
                                     {getPriceTotal(price)} kr
                                   </p>
+                                </div>
+                                <p className='text-black'>Antal:</p>
+                                <div className='flex gap-4 text-black'>
+                                  <button>+</button>
+                                  <button>-</button>
                                 </div>
                               </div>
                               <div className='flex-1 flex items-end text-sm'>
