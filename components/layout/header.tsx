@@ -99,11 +99,6 @@ const Header: FunctionComponent = () => {
                                     {getPriceTotal(price)} kr
                                   </p>
                                 </div>
-                                <p className='text-black'>Antal:</p>
-                                <div className='flex gap-4 text-black'>
-                                  <button>+</button>
-                                  <button>-</button>
-                                </div>
                               </div>
                               <div className='flex-1 flex items-end text-sm'>
                                 <button
