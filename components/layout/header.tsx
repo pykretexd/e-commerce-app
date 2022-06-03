@@ -1,7 +1,6 @@
-import { useContext, Fragment, FunctionComponent, useState } from 'react';
+import { Fragment } from 'react';
 import { TrashIcon, ShoppingBagIcon } from '@heroicons/react/outline';
 import { Popover, Transition } from '@headlessui/react';
-import CartContext from '../context/CartContext';
 import {
   getPriceTotal,
   getProductDescription,
@@ -9,23 +8,20 @@ import {
   getProductName,
 } from '../../utils/computed';
 import Link from 'next/link';
+import CartStore from '../../utils/CartStore';
 
-const Header: FunctionComponent = () => {
-  const { items, remove } = useContext(CartContext);
+const Header = () => {
+  const items = CartStore((state) => state.items);
+  const quantity = CartStore((state) => state.quantity);
+  const remove = (id: string) => CartStore((state) => state.remove);
 
   const maxQuantity = 10;
-
-  const removeFromCart = (id: string) => {
-    if (remove) {
-      remove(id);
-    }
-  };
 
   const checkout = async () => {
     const lineItems = items?.map((price) => {
       return {
         price: price.id,
-        quantity: 1,
+        quantity: quantity,
         adjustable_quantity: {
           enabled: true,
           minimum: 1,
@@ -102,7 +98,7 @@ const Header: FunctionComponent = () => {
                               </div>
                               <div className='flex-1 flex items-end text-sm'>
                                 <button
-                                  onClick={(e) => removeFromCart(price.id)}
+                                  onClick={(e) => remove(price.id)}
                                   type='button'
                                   className='font-medium flex items-center text-gray-400 hover:text-gray-500'
                                 >

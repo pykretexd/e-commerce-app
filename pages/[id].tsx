@@ -1,16 +1,14 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent } from 'react';
 import Stripe from 'stripe';
-import CartContext from '../components/context/CartContext';
+import CartStore from '../utils/CartStore';
 import {
   getPriceTotal,
   getProductDescription,
   getProductImage,
   getProductName,
 } from '../utils/computed';
-
-const maxQuantity = 10;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SK as string, {
@@ -33,13 +31,7 @@ type Props = {
 };
 
 const Details: FunctionComponent<Props> = ({ price }) => {
-  const { add } = useContext(CartContext);
-  const addToCart = (p: Stripe.Price) => {
-    if (add) {
-      add(p);
-    }
-  };
-
+  const add = () => CartStore((state) => state.add);
   return (
     <>
       <Head>
@@ -63,7 +55,7 @@ const Details: FunctionComponent<Props> = ({ price }) => {
 
           <p className='my-2'>{getProductDescription(price.product)}</p>
           <button
-            onClick={() => addToCart(price)}
+            onClick={() => add(price)}
             className='relative p-2 my-2 w-full bg-green-500 text-white rounded-3xl self-center'
           >
             Lägg i varukorg
