@@ -1,3 +1,5 @@
+import { Stripe } from 'stripe';
+
 export function getProductName(product: any) {
   return product?.name;
 }
