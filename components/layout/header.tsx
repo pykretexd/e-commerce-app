@@ -8,20 +8,15 @@ import {
   getProductName,
 } from '../../utils/computed';
 import Link from 'next/link';
-import CartStore from '../../utils/CartStore';
 
 const Header = () => {
-  const items = CartStore((state) => state.items);
-  const quantity = CartStore((state) => state.quantity);
-  const remove = (id: string) => CartStore((state) => state.remove);
-
   const maxQuantity = 10;
 
   const checkout = async () => {
-    const lineItems = items?.map((price) => {
+    const lineItems = cart?.map((price) => {
       return {
         price: price.id,
-        quantity: quantity,
+        quantity: ,
         adjustable_quantity: {
           enabled: true,
           minimum: 1,
@@ -42,14 +37,14 @@ const Header = () => {
     <header className='relative flex justify-center h-20 bg-black text-white text-2xl '>
       <div className='w-[85vw] md:w-[75vw] max-w-[910px] flex items-center justify-between'>
         {/* Logo */}
-        <div className='flex-1 flex hover:cursor-pointer'>
+        <div className='flex hover:cursor-pointer'>
           <Link href='/'>
             <p className='text-2xl font-bold'>LOGO</p>
           </Link>
         </div>
 
         {/* Cart */}
-        <div className='flex-1 flex items-center justify-end'>
+        <div className='flex items-center justify-end'>
           <Popover className='ml-4 flow-root text-sm lg:relative lg:ml-8 z-50'>
             <Popover.Button className='group -m-2 p-2 flex items-center'>
               <ShoppingBagIcon
@@ -57,7 +52,7 @@ const Header = () => {
                 aria-hidden='true'
               />
               <span className='absolute bg-orange-400 translate-x-full -translate-y-1/2 rounded-xl w-4 h-4 text-center text-xs'>
-                {items?.length}
+                {cart?.length}
               </span>
             </Popover.Button>
             <Transition
@@ -71,13 +66,13 @@ const Header = () => {
             >
               <Popover.Panel className='absolute top-16 inset-x-0 mt-px pb-6 bg-white shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-[30rem] lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5'>
                 {/* Shopping bag panel */}
-                {items?.length ? (
+                {cart?.length ? (
                   <>
                     <h2 className='sr-only'>Korg</h2>
 
                     <div className='max-w-2xl mx-auto px-4'>
                       <ul role='list' className='divide-y divide-gray-200'>
-                        {items?.map((price) => (
+                        {cart?.map((price) => (
                           <li key={price.id} className='py-6 flex'>
                             <div className='flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden'>
                               <img

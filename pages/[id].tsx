@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { FunctionComponent } from 'react';
 import Stripe from 'stripe';
-import CartStore from '../utils/CartStore';
 import {
   getPriceTotal,
   getProductDescription,
@@ -31,7 +30,6 @@ type Props = {
 };
 
 const Details: FunctionComponent<Props> = ({ price }) => {
-  const add = () => CartStore((state) => state.add);
   return (
     <>
       <Head>
@@ -55,7 +53,7 @@ const Details: FunctionComponent<Props> = ({ price }) => {
 
           <p className='my-2'>{getProductDescription(price.product)}</p>
           <button
-            onClick={() => add(price)}
+            onClick={() => }
             className='relative p-2 my-2 w-full bg-green-500 text-white rounded-3xl self-center'
           >
             Lägg i varukorg
